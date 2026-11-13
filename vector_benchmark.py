@@ -11,9 +11,9 @@ def calculate_brightness(img_array):
 def run_performance_test():
     print(f"{'=' * 65}\n🚀 HARDWARE STRESS TEST: HIGH WORKLOAD BATCH\n{'=' * 65}")
 
-    # CONFIGURATION: We use 100 images to overcome 'Pool' setup overhead [cite: 23, 26]
+    # CONFIGURATION: We use 100 images to overcome 'Pool' setup overhead
     n_img = 100
-    res = 1000  # 4K resolution (16 million points per image) [cite: 10]
+    res = 1000  # 1000 x 1000 pixels (1 million points per image)
     size = (res, res)
     cores = cpu_count()
 
@@ -21,12 +21,12 @@ def run_performance_test():
     print(f"📊 TOTAL WORKLOAD : {n_img * res * res:,} DATA POINTS")
     print(f"{'=' * 65}")
 
-    # Faster pre-allocation in RAM [cite: 37]
+    # Faster pre-allocation in RAM
     print("Generating image batch...")
     images = [np.random.randint(0, 256, size, dtype=np.uint8) for _ in range(n_img)]
 
     # --- METHOD 1: SEQUENTIAL ---
-    # CPU executes instructions one after another [cite: 20]
+    # CPU executes instructions one after another
     print(f"\n🐢 METHOD 1: SEQUENTIAL PROCESSING")
     t0 = time.time()
     for i, img in enumerate(images):
@@ -36,11 +36,11 @@ def run_performance_test():
     t_seq = time.time() - t0
 
     # --- METHOD 2: PARALLEL ---
-    # Bypasses the sequential bottleneck using multiple cores [cite: 26, 28]
+    # Bypasses the sequential bottleneck using multiple cores
     print(f"\n⚡ METHOD 2: PARALLEL PROCESSING")
     t1 = time.time()
     with Pool(processes=cores) as pool:
-        # map handles the 100 tasks in parallel across the hierarchy [cite: 40]
+        # map handles the 100 tasks in parallel across the hierarchy
         results = pool.map(calculate_brightness, images)
         print(f"  🚀 All {n_img} Images Processed via {cores} Cores")
     t_par = time.time() - t1
@@ -60,13 +60,13 @@ def run_performance_test():
     print(f"Parallel Efficiency   : {p_efficiency:.1f}% ✅")
     print(f"{'=' * 65}")
 
-    # Hardware Justification for Part B Report [cite: 161]
+    # Hardware Justification for Part B Report
     if t_par < t_seq:
         print("💡 Hardware Insight: Parallelism won because the workload was heavy.")
-        print("   The system utilized core-level concurrency and L3 cache[cite: 19, 22].")
+        print("   The system utilized core-level concurrency and L3 cache.")
     else:
-        print("💡 Hardware Insight: Sequential won due to Bus Latency[cite: 57].")
-        print("   Data transfer time exceeded the calculation time[cite: 56].")
+        print("💡 Hardware Insight: Sequential won due to Bus Latency.")
+        print("   Data transfer time exceeded the calculation time.")
     print(f"{'=' * 65}")
 
 if __name__ == "__main__":

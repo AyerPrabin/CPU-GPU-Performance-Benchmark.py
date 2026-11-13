@@ -9,7 +9,7 @@ def calculate_heavy_logic(task_id):
     Simulates a heavy CPU-bound task like 3D physics or encryption.
     This demonstrates instruction-level parallelism and core usage.
     """
-    # A heavy loop forces the CPU to work without needing massive RAM [cite: 135]
+    # A heavy loop forces the CPU to work without needing massive RAM
     count = 0
     for i in range(5_000_000):
         count += (i * i)
@@ -18,16 +18,16 @@ def calculate_heavy_logic(task_id):
 def run_performance_test():
     print(f"{'=' * 65}\n🚀 COVENTRY UNIVERSITY: HARDWARE PERFORMANCE TEST (PART B)\n{'=' * 65}")
 
-    # Set 100 tasks to ensure all cores are fully utilized [cite: 124, 150]
+    # Set 100 tasks to ensure all cores are fully utilized
     n_tasks = 100
-    cores = cpu_count() # Identifies core count for parallel architecture [cite: 16]
+    cores = cpu_count() # Identifies core count for parallel architecture
 
     print(f"💻 SYSTEM CORES   : {cores} CORES DETECTED")
     print(f"📊 TOTAL WORKLOAD : {n_tasks} COMPLEX CPU TASKS")
     print(f"{'=' * 65}")
 
     # --- METHOD 1: SEQUENTIAL ---
-    # Mimics executing instructions one after another, creating a bottleneck[cite: 20, 193].
+    # Mimics executing instructions one after another, creating a bottleneck.
     print(f"\n🐢 METHOD 1: SEQUENTIAL PROCESSING (1 Core)")
     t0 = time.time()
     for i in range(n_tasks):
@@ -37,7 +37,7 @@ def run_performance_test():
     t_seq = time.time() - t0
 
     # --- METHOD 2: PARALLEL ---
-    # Utilizes parallel processing to maximize proposed hardware[cite: 150, 152].
+    # Utilizes parallel processing to maximize proposed hardware.
     print(f"\n⚡ METHOD 2: PARALLEL PROCESSING ({cores} Cores)")
     t1 = time.time()
     with Pool(processes=cores) as pool:
@@ -48,7 +48,7 @@ def run_performance_test():
 
     # --- PERFORMANCE ANALYSIS ---
     speedup = t_seq / t_par
-    # Tutor's Formula: (Speedup / Cores) * 100 [cite: 158]
+    # Tutor's Formula: (Speedup / Cores) * 100
     p_efficiency = (speedup / cores) * 100
 
     # Emojis based on which hardware configuration won
@@ -64,12 +64,12 @@ def run_performance_test():
     print(f"Parallel Efficiency   : {p_efficiency:.1f}% ✅")
     print(f"{'=' * 65}")
 
-    # Linking program behavior to hardware features for Part B report [cite: 161]
+    # Linking program behavior to hardware features for Part B report
     if t_par < t_seq:
         print("💡 Hardware Insight: Multi-core parallelism bypassed the bottleneck.")
-        print("   This confirms your specification's choice of high core counts[cite: 16, 135].")
+        print("   More cores gave a real speedup for this CPU-bound work.")
     else:
-        print("💡 Hardware Insight: Low efficiency suggests thermal throttling[cite: 65].")
+        print("💡 Hardware Insight: Low efficiency suggests thermal throttling.")
     print(f"{'=' * 65}")
 
 if __name__ == "__main__":
